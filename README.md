@@ -5,7 +5,9 @@ The only reason I wrote these was to collect usernames and passwords from zombie
 
 These honeypots only capture passwords, they cannot provide a shell.
 
-## usage
+Disclaimer: I wrote this in my early Python days (2010), use it at your own risk.
+
+## Usage
 ```
 $ sudo ./start.sh
 $ sudo ./stop.sh
