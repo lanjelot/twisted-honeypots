@@ -7,7 +7,7 @@ All credentials are stored on a local MySQL database.
 ## Install ##
 
 ```bash
-$ git clone https://github.com/lanjelot/twisted-honeypots /opt
+$ git clone https://github.com/lanjelot/twisted-honeypots /opt/twisted-honeypots
 $ cd /opt/twisted-honeypots
 $ ./install.sh && ./setup.sh
 ```
@@ -16,7 +16,7 @@ $ ./install.sh && ./setup.sh
 
 To start/stop the services:
 
-```
+```bash
 $ sudo ./start.sh
 $ sudo ./stop.sh
 ```
@@ -24,7 +24,7 @@ $ sudo ./stop.sh
 
 To monitor the current execution:
 
-```
+```bash
 $ ./monitor.sh
 ```
 
@@ -33,7 +33,7 @@ $ ./monitor.sh
 
 To extract the login/passwords in a wordlist sorted by best popularity:
 
-```
+```bash
 $ source vars.sh
 # logins
 $ echo "select count(2),login from pot group by 2 order by count(2) desc" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB}
