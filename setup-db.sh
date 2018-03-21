@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS pot (
    login varchar(255) NOT NULL,
    password varchar(255) NOT NULL,
    host varchar(255) NOT NULL,
-   timestamp DATETIME(6),
+   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    PRIMARY KEY (id)
 );
 EOF
