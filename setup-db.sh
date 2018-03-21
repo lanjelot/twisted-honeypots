@@ -2,7 +2,7 @@
 
 source $(dirname $0)/vars.sh
 
-cat <<EOF | mysql -rs -uroot -p ${MYSQL_DB}
+cat <<EOF | mysql -rs -uroot -p
 CREATE DATABASE ${MYSQL_DB};
 GRANT SELECT,INSERT,DELETE,UPDATE on ${MYSQL_DB}.* to '${MYSQL_USER}'@'localhost' identified by '${MYSQL_PWD}';
 USE \${MYSQL_DB};
