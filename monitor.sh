@@ -73,7 +73,7 @@ main(){
 	endwin
 
 	window "Last connection" "red" "30%"
-    res=$(echo "select host, datetime from pot order by timestamp desc limit 1" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB})
+    res=$(echo "select host, timestamp from pot order by timestamp desc limit 1" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB})
 	append "${res}"
 	endwin
 
