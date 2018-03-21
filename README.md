@@ -3,6 +3,8 @@
 SSH, FTP and Telnet honeypot services based on the [Twisted](http://twistedmatrix.com/) engine for Python 3.
 All credentials are stored on a local MySQL database.
 
+This will create easily (and painlessly) very good dictionaries to use for pentesting.
+
 
 ## Install ##
 
