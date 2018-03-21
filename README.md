@@ -30,7 +30,7 @@ To monitor the current execution:
 $ ./monitor.sh
 ```
 
-![preview](https://i.imgur.com/5V2Kw4j.png)
+![preview](https://i.imgur.com/5p4GR5z.png)
 
 
 To extract the login/passwords in a wordlist sorted by best popularity:
