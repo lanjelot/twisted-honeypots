@@ -1,3 +1,5 @@
 #!/bin/bash
-PIDFILE=/var/run/twistd-pot.pid
-test -f "$PIDFILE" && kill $(< "$PIDFILE") && rm -f "$PIDFILE"
+
+source $(dirname $0)/vars.sh
+
+test -f "$TWISTED_PID" && kill $(< "$TWISTED_PID") && rm -f "$TWISTED_PID"
