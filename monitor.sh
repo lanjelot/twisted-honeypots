@@ -58,7 +58,7 @@ main(){
 
 	window "Top countries" "red" "30%"
 	echo "select count(2), host from pot group by 2 order by count(2) desc $limit" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB} | while read i j ; do
-		echo "${i}: ${j} ($(get_country_for_ip ${j})";
+		echo "${i}: ${j} ($(get_country_for_ip ${j}))";
 	done > /tmp/res
 	append_file /tmp/res
 	endwin
