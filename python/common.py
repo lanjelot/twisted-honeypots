@@ -22,7 +22,7 @@ class PotFactory:
     def updatePot(self, login, password, host):
         log.msg('Thank you %s - %s : %s' % (host, login.decode("utf8"), password.decode("utf8")))
         if self.logfile:
-            line = "%s : %s : %s : %s\n" % (strftime('%F %T'), host, login, password)
+            line = "%s : %s : %s : %s\n" % (strftime('%F %T'), host, login.decode("utf8"), password.decode("utf8"))
             open(self.logfile, 'a').write(line)
 
         if self.dbpool:
