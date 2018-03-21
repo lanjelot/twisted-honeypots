@@ -1,4 +1,4 @@
 #!/bin/bash
 
-/opt/honeypot/twisted/stop.sh
-/opt/honeypot/twisted/start.sh
+$(dirname $0)/stop.sh
+$(dirname $0)/start.sh
