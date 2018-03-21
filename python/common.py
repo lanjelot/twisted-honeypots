@@ -20,10 +20,10 @@ class PotFactory:
             self.dbpool = adbapi.ConnectionPool('MySQLdb', **dbopts)
 
     def updatePot(self, login, password, host):
-        log.msg('Thank you %s - %s : %s' % (host, login, password))
+        log.msg('Thank you %s - %s : %s' % (host, login.decode("utf8"), password.decode("utf8")))
         if self.logfile:
             line = "%s : %s : %s : %s\n" % (strftime('%F %T'), host, login, password)
             open(self.logfile, 'a').write(line)
 
         if self.dbpool:
-            self.dbpool.runQuery('INSERT INTO pot (type, login, password, host) VALUES (%s, %s, %s, %s, NOW())', (self.proto, login.decode("utf8"), password.decode("utf8"), host))
+            self.dbpool.runQuery('INSERT INTO pot (type, login, password, host) VALUES (%s, %s, %s, %s, NOW())', (self.proto, login, password, host))
