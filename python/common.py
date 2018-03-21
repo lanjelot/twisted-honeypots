@@ -26,4 +26,4 @@ class PotFactory:
             open(self.logfile, 'a').write(line)
 
         if self.dbpool:
-            self.dbpool.runQuery('INSERT INTO pot (type, login, password, host) VALUES (%s, %s, %s, %s)', (self.proto, login.decode("utf8"), password.decode("utf8"), host))
+            self.dbpool.runQuery('INSERT INTO pot (type, login, password, host) VALUES (%s, %s, %s, %s, NOW())', (self.proto, login.decode("utf8"), password.decode("utf8"), host))

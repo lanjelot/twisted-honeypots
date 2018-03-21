@@ -7,7 +7,12 @@ source $(dirname $0)/vars.sh
 
 EXPORT_PATH=${HOME}/pots
 
-N=60
+N=30
+
+get_country_for_ip(){
+    ip="$1"
+    geoiplookup ${i} | sed 's/GeoIP Country Edition: //g'
+}
 
 main(){
 	action=$1
@@ -53,20 +58,26 @@ main(){
 
 	window "Top countries" "red" "30%"
 	echo "select count(2), host from pot group by 2 order by count(2) desc $limit" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB} | while read i j ; do
-		echo "${i}: ${j} ($(geoiplookup $j | sed 's/GeoIP Country Edition: //g'))";
+		echo "${i}: ${j} ($(get_country_for_ip ${j})";
 	done > /tmp/res
 	append_file /tmp/res
 	endwin
 
 	window "Total records" "red" "30%"
-	echo "select count(*) from pot" | mysql -rs -upot_user pot_db > /tmp/res
+	echo "select count(*) from pot" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB} > /tmp/res
 	append_file /tmp/res
-	rm /tmp/res
 	endwin
 
 	window "Last update" "red" "30%"
 	append "$(date) (refresh: ${N}s)"
 	endwin
+
+	window "Last connection" "red" "30%"
+    res=$(echo "select host, datetime from pot order by timestamp desc limit 1" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB})
+	append "${res}"
+	endwin
+
+	rm /tmp/res
 }
 
 
