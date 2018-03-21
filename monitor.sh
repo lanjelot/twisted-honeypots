@@ -11,7 +11,7 @@ N=30
 
 get_country_for_ip(){
     ip="$1"
-    geoiplookup ${i} | sed 's/GeoIP Country Edition: //g'
+    geoiplookup ${ip} | sed 's/GeoIP Country Edition: //g'
 }
 
 main(){
