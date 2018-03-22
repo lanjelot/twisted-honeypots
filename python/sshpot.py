@@ -10,6 +10,8 @@ from twisted.conch import unix, interfaces
 from twisted.internet import defer
 from common import PotFactory
 
+import random
+
 publicKey = b'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAwRDx36H79uAlt4aGFonJvm7V8cUttqShwg9eYHZnFNc/Sb5L+ERf1TnMx/eqcnFesBzbltdBfXfQkaRHNA1GHBGec0OcaDwGGXGMGWGyyUB8hB+7ftpyWbsCnN3qBSoGfIo1JnEUXpsQ0B0EnMiQqHo7TImG7LVSiV6tsUuhSWX8s3zXPLLcL/CCS+p6wK6Y7EmF+YylcOPkvG05Kvzzb6WWFFGop7/mqOLL9lrgYbjjsSQkQXR2NC2QunWkiB0/r2MaaeLamv4HUmPUw2lPgPlibpmnu1BkLayIXEOJiFEsDSCXm81IKj0aMez0f6FY8sDpd9lLnsFbjyOhzTmJ6w=='
 
 privateKey = b'''-----BEGIN RSA PRIVATE KEY-----
@@ -119,7 +121,13 @@ class PotSSHFactory(factory.SSHFactory, PotFactory):
         PotFactory.__init__(self, logfile, dburl)
 
         self.portal = portal.Portal(MockRealm(), (MockChecker(),))
-        self.protocol.ourVersionString = b'SSH-2.0-OpenSSH_5.5p1 Debian-6'
+        self.protocol.ourVersionString = random.choice([b'SSH-2.0-OpenSSH_5.5p1 Debian-6',
+                                                        b'SSH-2.0-OpenSSH_6.4p1-hpn14v2 FreeBSD-openssh-portable-6.4.p1,1',
+                                                        b'SSH-2.0-OpenSSH',
+                                                        b'SSH-2.0-OpenSSH_6.7p1 Raspbian-5+deb8u4',
+                                                        b'SSH-2.0-OpenSSH_6.6.1p1 Ubuntu-2ubuntu2.10',
+                                                        b'SSH-2.0-dropbear_0.52',
+                                                        b'SSH-1.99-Cisco-1.25',])
 
 if __name__ == '__main__':
     t = PotSSHFactory()
