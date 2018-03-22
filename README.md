@@ -11,7 +11,7 @@ This will create easily (and painlessly) very good dictionaries to use for pente
 ```bash
 $ git clone https://github.com/lanjelot/twisted-honeypots /opt/twisted-honeypots
 $ cd /opt/twisted-honeypots
-$ ./install.sh && ./setup.sh
+$ sudo ./install.sh && ./setup.sh
 ```
 
 ## Usage ##
@@ -38,7 +38,7 @@ To extract the login/passwords in a wordlist sorted by best popularity:
 ```bash
 $ source vars.sh
 # logins
-$ echo "select count(2),login from pot group by 2 order by count(2) desc" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB}
-# password
-$ echo "select count(2),password from pot group by 2 order by count(2) desc" | mysql -rs -u${MYSQL_USER} ${MYSQL_DB}
+$ echo "select distinct login from pot group by login order by count(login) desc" | mysql -rs -u${MYSQL_USER} -p${MYSQL_PWD} ${MYSQL_DB}
+# passwords
+$ echo "select distinct password from pot group by password order by count(password) desc" | mysql -rs -u${MYSQL_USER} -p${MYSQL_PWD} ${MYSQL_DB}
 ```
