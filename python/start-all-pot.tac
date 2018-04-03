@@ -3,6 +3,7 @@ from ftppot import PotFTPFactory
 from sshpot import PotSSHFactory
 from telnetpot import PotTelnetFactory
 
+
 dburl = 'pot_user:password@127.0.0.1:3306/pot_db'
 
 application = service.Application('allpot')

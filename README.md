@@ -1,30 +1,44 @@
 # twisted-honeypots
-SSH, FTP and Telnet honeypot services based on the [Twisted](http://twistedmatrix.com/) engine.
 
-The only reason I wrote these was to collect usernames and passwords from zombies scanning the Internet.
+SSH, FTP and Telnet honeypot services based on the [Twisted](http://twistedmatrix.com/) engine for Python 3.
+All credentials are stored on a local MySQL database.
 
-These honeypots only capture passwords, they cannot provide a shell.
+This will create easily (and painlessly) very good dictionaries to use for pentesting.
 
-Disclaimer: I wrote this in my early Python days (2010), use it at your own risk.
 
-## Usage
+## Install ##
+
+```bash
+$ git clone https://github.com/lanjelot/twisted-honeypots /opt/twisted-honeypots
+$ cd /opt/twisted-honeypots
+$ sudo ./install.sh && ./setup.sh
 ```
+
+## Usage ##
+
+To start/stop the services:
+
+```bash
 $ sudo ./start.sh
 $ sudo ./stop.sh
-$ sudo ./restart.sh
 ```
 
-## Pre-requisites
+
+To monitor the current execution:
+
+```bash
+$ ./monitor.sh
 ```
-CREATE DATABASE pot_db;
-GRANT SELECT,INSERT,DELETE,UPDATE on pot_db.* to 'pot_user'@'localhost' identified by 'password';
-USE pot_db;
-CREATE TABLE IF NOT EXISTS `pot` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `type` enum('ftp', 'ssh', 'telnet') NOT NULL,
-   `login` varchar(255) NOT NULL,
-   `password` varchar(255) NOT NULL,
-   `host` varchar(255) NOT NULL,
-PRIMARY KEY (`id`)
-);
+
+![preview](https://i.imgur.com/5p4GR5z.png)
+
+
+To extract the login/passwords in a wordlist sorted by best popularity:
+
+```bash
+$ source vars.sh
+# logins
+$ echo "select distinct login from pot group by login order by count(login) desc" | mysql -rs -u${MYSQL_USER} -p${MYSQL_PWD} ${MYSQL_DB}
+# passwords
+$ echo "select distinct password from pot group by password order by count(password) desc" | mysql -rs -u${MYSQL_USER} -p${MYSQL_PWD} ${MYSQL_DB}
 ```

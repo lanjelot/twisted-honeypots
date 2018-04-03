@@ -7,40 +7,40 @@ from re import match
 from common import PotFactory
 
 
-WELCOME_MSG                   = '220'
-GOODBYE_MSG                   = '221'
+WELCOME_MSG                   = b'220'
+GOODBYE_MSG                   = b'221'
 
-USER_OK_NEED_PASS             = '331'
+USER_OK_NEED_PASS             = b'331'
 
-PLEASE_LOGIN                  = '503'
-UNKNOWN_COMMAND               = '500'
-LOGIN_WITH_USER_FIRST         = '503'
-LOGIN_FAIL                    = '530'
-REQ_ACTN_NOT_TAKEN            = '550'
+PLEASE_LOGIN                  = b'503'
+UNKNOWN_COMMAND               = b'500'
+LOGIN_WITH_USER_FIRST         = b'503'
+LOGIN_FAIL                    = b'530'
+REQ_ACTN_NOT_TAKEN            = b'550'
 
 RESPONSE = {
-    WELCOME_MSG:              '220 %s',
-    GOODBYE_MSG:              '221 Goodbye.',
+    WELCOME_MSG:              b'220 %s',
+    GOODBYE_MSG:              b'221 Goodbye.',
 
-    USER_OK_NEED_PASS:        '331 Please specify the password.',
+    USER_OK_NEED_PASS:        b'331 Please specify the password.',
 
-    PLEASE_LOGIN:             '530 Please login with USER and PASS.',
-    UNKNOWN_COMMAND:          '500 Unknown command.',
-    LOGIN_WITH_USER_FIRST:    '503 Login with USER first.',
-    LOGIN_FAIL:               '530 Login incorrect.',
-    REQ_ACTN_NOT_TAKEN:       '550 Requested action not taken: %s',
+    PLEASE_LOGIN:             b'530 Please login with USER and PASS.',
+    UNKNOWN_COMMAND:          b'500 Unknown command.',
+    LOGIN_WITH_USER_FIRST:    b'503 Login with USER first.',
+    LOGIN_FAIL:               b'530 Login incorrect.',
+    REQ_ACTN_NOT_TAKEN:       b'550 Requested action not taken: %s',
 }
 
 class FTPpot(basic.LineOnlyReceiver, policies.TimeoutMixin):
-    
-    delimiter = '\n'
+
+    delimiter = b'\n'
     disconnected = False
     UNAUTH, INAUTH = range(2)
 
     ''' So that FTP clients that use '\n' instead of '\r\n'
         receive responses anyway '''
     def sendLine(self, msg):
-      basic.LineOnlyReceiver.sendLine(self, msg+'\r')
+      basic.LineOnlyReceiver.sendLine(self, msg+b'\r')
 
     def reply(self, key, *args):
         msg = RESPONSE[key] % args
@@ -79,23 +79,23 @@ class FTPpot(basic.LineOnlyReceiver, policies.TimeoutMixin):
 
     def processCommand(self, line):
         if not line: return
-        cmd, args = match(r'(\S+)\s*(.*)$', line.rstrip()).groups()
+        cmd, args = match(b'(\S+)\s*(.*)$', line.rstrip()).groups()
         cmd = cmd.upper()
 
-        if cmd == 'USER':
+        if cmd == b'USER':
             if self.state != self.UNAUTH:
                 return PLEASE_LOGIN
             else:
                 return self.ftp_USER(args)
 
-        elif cmd == 'PASS':
+        elif cmd == b'PASS':
             if self.state != self.INAUTH:
                 return LOGIN_WITH_USER_FIRST
             else:
                 return self.ftp_PASS(args)
 
         else:
-            method = getattr(self, "ftp_" + cmd, None)
+            method = getattr(self, "ftp_" + cmd.decode("utf8"), None)
             if method is not None:
                 return method(line)
             else:
@@ -113,10 +113,10 @@ class FTPpot(basic.LineOnlyReceiver, policies.TimeoutMixin):
         return LOGIN_FAIL
 
     def ftp_FEAT(self, line):
-        self.sendLine('211-Features:')
-        for i in 'EPRT,EPSV,MDTM,PASV,REST STREAM,SIZE,TVFS,UTF8'.split(','):
-            self.sendLine(' %s' % i)
-        self.sendLine('211 End')
+        self.sendLine(b'211-Features:')
+        for i in b'EPRT,EPSV,MDTM,PASV,REST STREAM,SIZE,TVFS,UTF8'.split(b','):
+            self.sendLine(b' %s' % i)
+        self.sendLine(b'211 End')
 
     def ftp_QUIT(self, line):
         self.reply(GOODBYE_MSG)
@@ -139,7 +139,5 @@ class FTPCmdError(Exception):
 
 class PotFTPFactory(protocol.ServerFactory, PotFactory):
     protocol = FTPpot
-    welcomeMessage = 'vsFTPd 2.3.4'
+    welcomeMessage = b'vsFTPd 2.3.4'
     proto = 'ftp'
-
-# vim: ts=4 sw=4 sts=4 et
