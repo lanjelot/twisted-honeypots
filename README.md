@@ -11,7 +11,7 @@ This will create easily (and painlessly) very good dictionaries to use for pente
 ```bash
 $ git clone https://github.com/lanjelot/twisted-honeypots /opt/twisted-honeypots
 $ cd /opt/twisted-honeypots
-$ sudo ./install.sh && ./setup.sh
+$ sudo ./install.sh && ./setup-db.sh
 ```
 
 ## Usage ##

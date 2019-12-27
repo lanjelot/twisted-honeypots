@@ -3,9 +3,9 @@
 source $(dirname $0)/vars.sh
 
 cat <<EOF | mysql -rs -uroot -p
-CREATE DATABASE ${MYSQL_DB};
+CREATE DATABASE IF NOT EXISTS ${MYSQL_DB};
 GRANT SELECT,INSERT,DELETE,UPDATE on ${MYSQL_DB}.* to '${MYSQL_USER}'@'localhost' identified by '${MYSQL_PWD}';
-USE \${MYSQL_DB};
+USE ${MYSQL_DB};
 CREATE TABLE IF NOT EXISTS pot (
    id int(10) unsigned NOT NULL AUTO_INCREMENT,
    type enum('ftp', 'ssh', 'telnet') NOT NULL,
